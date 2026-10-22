@@ -11,8 +11,7 @@ like, what it costs, and where the shop is. All of it inside one scroll.
 
 ## Live site
 
-<!-- Replace once GitHub Pages is enabled -->
-https://example.github.io/toko-matcha/
+https://toko-matcha-beta.vercel.app/
 
 ## Running it locally
 
@@ -49,11 +48,11 @@ someone changes the setting with the page already open.
 The large photographs are WebP. Every `<img>` carries its real `width` and
 `height`, so the layout holds its shape while the images are still arriving.
 
-To deploy: push to GitHub, then Settings, Pages, deploy from `main`. Afterwards
-go back into `index.html` and replace the placeholder domain in the
-`rel="canonical"` link and the `og:image` tag, and fix the live-site URL at the
-top of this file. Social previews need an absolute URL. A relative one silently
-produces a link with no image at all.
+The site is deployed on Vercel at `toko-matcha-beta.vercel.app`. If the
+address ever changes (a custom domain, say), update it in `index.html` in the
+`rel="canonical"` link and the `og:image` and `twitter:image` tags, and fix the
+live-site URL at the top of this file. Social previews need an absolute URL. A
+relative one silently produces a link with no image at all.
 
 ## License
 
