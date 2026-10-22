@@ -10,14 +10,22 @@
   var root = document.documentElement;
   var motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
   var reduced = motionQuery.matches;
+  motionQuery.addEventListener('change', function (e) { reduced = e.matches; });
+
+  // calls fn(true|false) as `el` enters and leaves the (margin-padded) viewport
+  function whileVisible(el, margin, fn) {
+    new IntersectionObserver(function (entries) { fn(entries[0].isIntersecting); },
+      { rootMargin: margin }).observe(el);
+  }
 
   /* ---------- 1. page-load sequence ---------- */
-  // The hero holds its start-state until the first frame after the photograph
-  // has decoded, so the choreography never plays against an empty box.
+  // The hero holds its start-state until the photograph has decoded,
+  // so the choreography never plays against an empty box.
+  var started = false;
   function beginEntrance() {
-    requestAnimationFrame(function () {
-      root.classList.add('ready');
-    });
+    if (started) { return; }
+    started = true;
+    requestAnimationFrame(function () { root.classList.add('ready'); });
   }
 
   var heroImg = document.querySelector('.hero__media img');
@@ -30,32 +38,29 @@
   }
 
   /* ---------- 2. scroll reveals ---------- */
-  var revealables = document.querySelectorAll('.reveal, .flavors');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6%' });
+  document.querySelectorAll('.reveal, .flavors').forEach(function (el) { io.observe(el); });
 
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -6%' });
-    revealables.forEach(function (el) { io.observe(el); });
-  } else {
-    revealables.forEach(function (el) { el.classList.add('in'); });
+  // the footer wordmark is mostly clipped, so it is cued by the legal row above it
+  var mark = document.querySelector('.foot__mark');
+  var legal = document.querySelector('.foot__legal');
+  if (mark && legal) {
+    whileVisible(legal, '0px', function (on) { if (on) { mark.classList.add('in'); } });
   }
 
   /* ---------- 3. continuous loops, gated on visibility ----------
      A rosette that spins and a glass that bobs cost nothing when they are
-     on screen and everything when six of them run off screen at once. */
-  function gateLoop(el, className) {
-    if (!el || reduced) { return; }
-    if (!('IntersectionObserver' in window)) { el.classList.add(className); return; }
-    new IntersectionObserver(function (entries) {
-      el.classList.toggle(className, entries[0].isIntersecting);
-    }, { rootMargin: '10% 0px' }).observe(el);
-  }
-
-  gateLoop(document.querySelector('.badge'), 'spin');
-  gateLoop(document.querySelector('.split__product'), 'float');
+     on screen and everything when they run off screen. */
+  [['.badge', 'spin'], ['.split__product', 'float']].forEach(function (pair) {
+    var el = document.querySelector(pair[0]);
+    if (el) {
+      whileVisible(el, '10% 0px', function (on) { el.classList.toggle(pair[1], on && !reduced); });
+    }
+  });
 
   /* ---------- 4. one scroll handler: hero zoom + powder parallax ---------- */
   var hero = document.querySelector('.hero');
@@ -71,80 +76,72 @@
 
   function applyScroll() {
     scrollTicking = false;
-    var y = window.scrollY;
+    if (reduced) { return; }
+    var vh = window.innerHeight;
 
     if (hero) {
-      var p = Math.min(Math.max(y / hero.offsetHeight, 0), 1);
+      var p = Math.min(Math.max(window.scrollY / hero.offsetHeight, 0), 1);
       hero.style.setProperty('--hs', (1 + p * 0.2).toFixed(4));
     }
 
     if (powderImg) {
       var box = powder.getBoundingClientRect();
-      if (box.bottom > 0 && box.top < window.innerHeight) {
+      if (box.bottom > 0 && box.top < vh) {
         // -1 above the viewport centre, +1 below it
-        var centred = (box.top + box.height / 2 - window.innerHeight / 2) / window.innerHeight;
+        var centred = (box.top + box.height / 2 - vh / 2) / vh;
         powderImg.style.setProperty('--py', (centred * 26).toFixed(2) + 'px');
       }
     }
   }
 
-  if (!reduced && (hero || powderImg)) {
-    addEventListener('scroll', readScroll, { passive: true });
-    addEventListener('resize', readScroll, { passive: true });
-    applyScroll();
-  }
+  addEventListener('scroll', readScroll, { passive: true });
+  addEventListener('resize', readScroll, { passive: true });
+  applyScroll();
 
   /* ---------- 5. ribbon marquee ---------- */
   var marquee = document.getElementById('ribbonMarquee');
   if (marquee) {
-    var WORDS = ['Matcha Fruit Latte', 'Pistachio Cream Cheese', 'Sweet Matcha',
-                 'Kukusan Depok', 'Open Every Day'];
-    var phrase = WORDS.join(' · ') + ' · ';
+    var phrase = ['Pure Matcha Latte', 'Pistachio Creamcheese', 'Matcha Latte Float',
+                  'Kukusan Depok', 'Open Every Day'].join(' · ') + ' · ';
+    var pathLen = document.getElementById('ribbonPath').getTotalLength();
+    var unit = 0;
+    var drift = 0;
+    var visible = false;
+    var running = false;
 
-    var startRibbon = function () {
-      var pathLen = document.getElementById('ribbonPath').getTotalLength();
+    // The type size changes at the breakpoints, so the length of one
+    // phrase is measured again whenever the viewport is resized.
+    var measure = function () {
       marquee.textContent = phrase;
-      var unit = marquee.getComputedTextLength();
-      if (!unit) { return; }
-
+      unit = marquee.getComputedTextLength();
       // repeat enough times that the band is always full, plus one spare cycle
-      marquee.textContent = phrase.repeat(Math.ceil(pathLen / unit) + 2);
-      if (reduced) { return; }
-
-      var ribbon = document.querySelector('.ribbon');
-      var visible = true;
-      var running = false;
-      var drift = 0;
-
-      function frame() {
-        if (!visible) { running = false; return; }
-        drift -= 0.45;
-        // the band also tracks the page, so it sweeps as you scroll past it
-        marquee.setAttribute('startOffset', (drift - window.scrollY * 0.6) % unit);
-        requestAnimationFrame(frame);
-      }
-
-      function run() {
-        if (running) { return; }
-        running = true;
-        requestAnimationFrame(frame);
-      }
-
-      if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (entries) {
-          visible = entries[0].isIntersecting;
-          if (visible) { run(); }
-        }, { rootMargin: '20% 0px' }).observe(ribbon);
-      } else {
-        run();
-      }
+      if (unit) { marquee.textContent = phrase.repeat(Math.ceil(pathLen / unit) + 2); }
     };
 
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(startRibbon);
-    } else {
-      addEventListener('load', startRibbon);
-    }
+    var frame = function () {
+      if (!visible || reduced || !unit) { running = false; return; }
+      drift -= 0.45;
+      // the band also tracks the page, so it sweeps as you scroll past it
+      marquee.setAttribute('startOffset', (drift - window.scrollY * 0.6) % unit);
+      requestAnimationFrame(frame);
+    };
+
+    var run = function () {
+      if (running || !visible || reduced) { return; }
+      running = true;
+      requestAnimationFrame(frame);
+    };
+
+    document.fonts.ready.then(function () {
+      measure();
+      matchMedia('(max-width: 860px)').addEventListener('change', measure);
+      matchMedia('(max-width: 560px)').addEventListener('change', measure);
+      whileVisible(document.querySelector('.ribbon'), '20% 0px', function (on) {
+        visible = on;
+        run();
+      });
+      motionQuery.addEventListener('change', run);
+    });
   }
 
   /* ---------- 6. flavour picker ---------- */
@@ -152,21 +149,27 @@
   var cupLabel = document.getElementById('cupLabel');
   var cupPrice = document.getElementById('cupPrice');
   var flavors = document.querySelectorAll('.flavor');
+  var swapTimer;
 
   flavors.forEach(function (btn) {
+    btn.setAttribute('aria-pressed', btn.classList.contains('is-active'));
     btn.addEventListener('click', function () {
       if (btn.classList.contains('is-active')) { return; }
-      flavors.forEach(function (b) { b.classList.remove('is-active'); });
-      btn.classList.add('is-active');
+      flavors.forEach(function (b) {
+        b.classList.toggle('is-active', b === btn);
+        b.setAttribute('aria-pressed', b === btn);
+      });
 
       // the cup dips, swaps its label at the bottom of the dip, and comes back
       cup.classList.add('swap');
-      setTimeout(function () {
-        var parts = btn.dataset.name.split('& ');
-        cupLabel.textContent = '';
-        cupLabel.append(parts[0] + '&', document.createElement('br'), parts[1] || '');
+      cupPrice.classList.add('swap');
+      clearTimeout(swapTimer);
+      swapTimer = setTimeout(function () {
+        var parts = btn.dataset.label.split('|');
+        cupLabel.replaceChildren(parts[0], document.createElement('br'), parts[1] || '');
         cupPrice.textContent = 'Rp' + btn.dataset.price;
         cup.classList.remove('swap');
+        cupPrice.classList.remove('swap');
       }, reduced ? 0 : 240);
     });
   });
@@ -175,33 +178,35 @@
   var burger = document.getElementById('burger');
   var overlay = document.getElementById('menuOverlay');
   var closeBtn = document.getElementById('burgerClose');
+  var shell = document.querySelector('.shell');
   var closeTimer;
 
-  function openMenu() {
+  function setOpen(open) {
     clearTimeout(closeTimer);
-    overlay.hidden = false;
-    requestAnimationFrame(function () { overlay.classList.add('open'); });
-    burger.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-    closeBtn.focus();
-  }
-
-  function closeMenu() {
-    overlay.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-    burger.focus();
-    // exits run shorter than entrances
-    closeTimer = setTimeout(function () { overlay.hidden = true; }, reduced ? 0 : 300);
+    burger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    shell.inert = open;                        // keeps focus inside the overlay
+    if (open) {
+      overlay.hidden = false;
+      requestAnimationFrame(function () { overlay.classList.add('open'); });
+      closeBtn.focus();
+    } else {
+      overlay.classList.remove('open');
+      // preventScroll: a menu link is about to scroll somewhere else
+      burger.focus({ preventScroll: true });
+      // exits run shorter than entrances
+      closeTimer = setTimeout(function () { overlay.hidden = true; }, reduced ? 0 : 300);
+    }
   }
 
   if (burger && overlay) {
-    burger.addEventListener('click', openMenu);
-    closeBtn.addEventListener('click', closeMenu);
-    overlay.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMenu); });
-    addEventListener('keydown', function (e) { if (e.key === 'Escape' && !overlay.hidden) { closeMenu(); } });
+    burger.addEventListener('click', function () { setOpen(true); });
+    closeBtn.addEventListener('click', function () { setOpen(false); });
+    overlay.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { setOpen(false); });
+    });
+    addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) { setOpen(false); }
+    });
   }
-
-  /* ---------- 8. honour a mid-session preference change ---------- */
-  motionQuery.addEventListener('change', function (e) { reduced = e.matches; });
 })();

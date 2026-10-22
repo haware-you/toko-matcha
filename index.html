@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Toko Matcha — Matcha On Perfect</title>
-<meta name="description" content="Toko Matcha, Kukusan, Depok. Matcha fruit lattes, pistachio cream cheese, sweet matcha from Rp15.000." />
+<meta name="description" content="Toko Matcha, Kukusan, Depok. Matcha lattes, pistachio and strawberry creamcheese, coffee and matcha from Rp13.000." />
 <link rel="canonical" href="https://example.github.io/toko-matcha/" />
 
 <!-- Icons -->
@@ -17,20 +17,20 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Toko Matcha" />
 <meta property="og:title" content="Toko Matcha — Matcha On Perfect" />
-<meta property="og:description" content="Matcha fruit lattes, pistachio cream cheese and sweet matcha from Rp15.000. Kukusan, Depok — open every day." />
+<meta property="og:description" content="Matcha lattes, pistachio and strawberry creamcheese, coffee and matcha from Rp13.000. Kukusan, Depok — open every day." />
 <meta property="og:image" content="https://example.github.io/toko-matcha/assets/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:locale" content="en_US" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Toko Matcha — Matcha On Perfect" />
-<meta name="twitter:description" content="Matcha fruit lattes, pistachio cream cheese and sweet matcha from Rp15.000. Kukusan, Depok — open every day." />
+<meta name="twitter:description" content="Matcha lattes, pistachio and strawberry creamcheese, coffee and matcha from Rp13.000. Kukusan, Depok — open every day." />
 <meta name="twitter:image" content="https://example.github.io/toko-matcha/assets/og-image.jpg" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Playfair+Display:ital,wght@0,500;1,400;1,500;1,600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,800&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=2" />
 <!-- Entrance states only apply when scripting is available, so the page is
      never left blank if script.js fails to load. -->
 <script>document.documentElement.classList.add('js');</script>
@@ -42,7 +42,7 @@
   <!-- ============ HERO ============ -->
   <section class="hero" id="home">
     <div class="hero__media">
-      <img src="assets/hero.webp" alt="An iced matcha and an iced tea in branded Toko Matcha cups, on the bamboo table at the shop" width="1272" height="1140" fetchpriority="high" decoding="async" />
+      <img src="assets/hero.webp" alt="An iced matcha and an iced tea in branded Toko Matcha cups, on the bamboo table at the shop" width="1272" height="1140" fetchpriority="high" />
     </div>
     <svg class="hero__cut" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
       <path d="M-4,-2 C300,58 900,58 1204,-2 L1204,62 L-4,62 Z" />
@@ -50,7 +50,13 @@
 
     <header class="topbar">
       <a class="logo lift" href="#home" style="--d:.05s"><span>TOKO</span><span>MATCHA</span></a>
-      <button class="burger lift" id="burger" aria-label="Open menu" aria-expanded="false" style="--d:.1s">
+      <nav class="topnav lift" aria-label="Main" style="--d:.1s">
+        <a href="#drinks">Menu</a>
+        <a href="#menu">Flavours</a>
+        <a href="#locations">Location</a>
+        <a class="pill pill--yellow" href="#order">Order Now</a>
+      </nav>
+      <button class="burger lift" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menuOverlay" style="--d:.1s">
         <i></i><i></i><i></i>
       </button>
     </header>
@@ -103,11 +109,11 @@
   <section class="essence grid-bg" id="essence">
     <h2 class="display reveal">Matcha <em>Essence</em></h2>
     <p class="essence__sub reveal" style="--d:.08s">
-      Stone-ground green tea, whisked to order<br>Sweet matcha from Rp15.000
+      Stone-ground green tea, whisked to order<br>Coffee and matcha from Rp13.000
     </p>
 
     <figure class="essence__pill reveal" style="--d:.16s">
-      <img src="assets/powder.webp" alt="Matcha powder and a bamboo whisk resting in a chawan" width="1090" height="552" loading="lazy" decoding="async" />
+      <img src="assets/powder.webp" srcset="assets/powder-600.webp 600w, assets/powder.webp 1090w" sizes="(max-width: 860px) 84vw, min(56vw, 620px)" alt="Matcha powder and a bamboo whisk resting in a chawan" width="1090" height="552" loading="lazy" decoding="async" />
     </figure>
 
     <div class="essence__feet">
@@ -140,7 +146,7 @@
     </div>
 
     <div class="split__right">
-      <img src="assets/barista.webp" alt="A guest holding an iced matcha at Toko Matcha" width="870" height="1220" loading="lazy" decoding="async" />
+      <img src="assets/storefront.webp" srcset="assets/storefront-640.webp 640w, assets/storefront.webp 1200w" sizes="(max-width: 860px) 100vw, min(50vw, 720px)" alt="The Toko Matcha storefront on Jl. K.H.M Usman: a green signboard, wooden double doors and a Pick Your Favorite menu stand" width="1200" height="992" loading="lazy" decoding="async" />
     </div>
   </section>
 
@@ -149,8 +155,8 @@
     <h2 class="display reveal">Glow With <em>Matcha</em></h2>
 
     <div class="glow__stage">
-      <p class="note note--left reveal">Fruit<br><em>Latte</em></p>
-      <p class="note note--right reveal" style="--d:.08s">Pistachio<br><em>Cream Cheese</em></p>
+      <p class="note note--left reveal">Matcha<br><em>Latte</em></p>
+      <p class="note note--right reveal" style="--d:.08s">Pistachio<br><em>Creamcheese</em></p>
 
       <span class="scribble scribble--flavor reveal" style="--d:.14s">
         Flavor Options
@@ -158,17 +164,17 @@
       </span>
 
       <div class="flavors" id="flavors">
-        <button class="flavor" data-name="Matcha &amp; Grape"      data-price="20.000" style="--r:-22deg;--y:.71;--i:0"><img src="assets/f-grape.jpg" alt="Grapes" width="176" height="176" loading="lazy" decoding="async" /></button>
-        <button class="flavor" data-name="Matcha &amp; Mango"      data-price="20.000" style="--r:-14deg;--y:.36;--i:1"><img src="assets/f-mango.jpg" alt="Mango" width="176" height="176" loading="lazy" decoding="async" /></button>
-        <button class="flavor is-active" data-name="Matcha &amp; Strawberry" data-price="20.000" style="--r:-6deg;--y:0;--i:2"><img src="assets/f-strawberry.jpg" alt="Strawberry" width="148" height="148" loading="lazy" decoding="async" /></button>
-        <button class="flavor" data-name="Matcha &amp; Mint"       data-price="18.000" style="--r:6deg;--y:.04;--i:3"><img src="assets/f-leaf.jpg" alt="Fresh mint leaves" width="150" height="150" loading="lazy" decoding="async" /></button>
-        <button class="flavor" data-name="Matcha &amp; Blueberry"  data-price="20.000" style="--r:14deg;--y:.36;--i:4"><img src="assets/f-blueberry.jpg" alt="Blueberry" width="176" height="176" loading="lazy" decoding="async" /></button>
-        <button class="flavor" data-name="Matcha &amp; Pineapple"  data-price="20.000" style="--r:22deg;--y:.71;--i:5"><img src="assets/f-pineapple.jpg" alt="Pineapple" width="176" height="176" loading="lazy" decoding="async" /></button>
+        <button class="flavor" aria-label="Butterscotch Matcha Latte, Rp18.000" data-label="Butterscotch|Matcha Latte" data-price="18.000" style="--r:-22deg;--y:.71;--i:0"><svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="32" rx="12" ry="9"/><path d="M20 32 9 24v16zM44 32l11-8v16z"/><path class="ac" d="M28 25c3 4 3 10 0 14M34 24c3 5 3 11 0 16"/></svg></button>
+        <button class="flavor" aria-label="Hazelnut Matcha Latte, Rp18.000" data-label="Hazelnut|Matcha Latte" data-price="18.000" style="--r:-14deg;--y:.36;--i:1"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 23c10 0 16 9 16 18s-7 14-16 14-16-5-16-14 6-18 16-18z"/><path d="M17 27c4-6 9-10 15-10s11 4 15 10c-5 2-10 3-15 3s-10-1-15-3z"/><path class="ac" d="M32 17v-7M27 37c1 6 3 10 6 12"/></svg></button>
+        <button class="flavor is-active" aria-label="Strawberry Creamcheese Matcha Latte, Rp25.000" data-label="Strawberry|Creamcheese" data-price="25.000" style="--r:-6deg;--y:0;--i:2"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 23c-10-3-18 3-17 13 1 10 10 18 17 20 7-2 16-10 17-20 1-10-7-16-17-13z"/><path d="M24 17l8 6 8-6M32 23V11"/><path class="ac dots" d="M25 33h0M38 31h0M31 39h0M24 44h0M39 42h0M32 48h0"/></svg></button>
+        <button class="flavor" aria-label="Pure Matcha Latte, Rp20.000" data-label="Pure|Matcha Latte" data-price="20.000" style="--r:6deg;--y:.04;--i:3"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M26 9h12v9c0 2-2 3-6 3s-6-1-6-3z"/><path class="ac" d="M26 21c-6 8-8 20-6 34M29 21c-3 9-4 21-3 34M32 21v34M35 21c3 9 4 21 3 34M38 21c6 8 8 20 6 34"/></svg></button>
+        <button class="flavor" aria-label="Pistachio Creamcheese Matcha Latte, Rp25.000" data-label="Pistachio|Creamcheese" data-price="25.000" style="--r:14deg;--y:.36;--i:4"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M18 42c-5-13 4-28 18-30 6 11 3 28-10 33-3 1-6 1-8-3z"/><path d="M27 45c11-2 20-11 20-24 0 0 6 6 4 15-2 8-11 13-24 9z"/><path class="ac" d="M28 22c-5 6-6 13-4 19"/></svg></button>
+        <button class="flavor" aria-label="Matcha Latte Float, Rp25.000" data-label="Matcha|Latte Float" data-price="25.000" style="--r:22deg;--y:.71;--i:5"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M18 31h28l-4 25H22z"/><path class="ac" d="M20 31c0-8 5-14 12-14s12 6 12 14"/><path d="M39 10l-3 9M24 40h16"/></svg></button>
       </div>
 
       <figure class="glow__cup reveal" style="--d:.2s">
-        <img src="assets/cup.webp" alt="Layered iced matcha with fruit syrup" width="326" height="552" loading="lazy" decoding="async" />
-        <figcaption id="cupLabel">Matcha &amp;<br>Strawberry</figcaption>
+        <img src="assets/cup.webp" alt="Layered iced matcha latte over strawberry syrup" width="323" height="509" loading="lazy" decoding="async" />
+        <figcaption id="cupLabel" aria-live="polite">Strawberry<br>Creamcheese</figcaption>
       </figure>
     </div>
 
@@ -178,10 +184,40 @@
         <svg viewBox="0 0 90 60" aria-hidden="true"><path d="M4 6C10 34 34 48 74 46M74 46l-16-8M74 46l-11 12"/></svg>
       </span>
       <a class="pill pill--green pill--dashed" href="https://www.instagram.com/tokomatchaid/" target="_blank" rel="noreferrer">
-        Order Now <b id="cupPrice">Rp20.000</b>
+        Order Now <b id="cupPrice">Rp25.000</b>
         <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h21M16 1l5 5-5 5"/></svg>
       </a>
     </div>
+  </section>
+
+  <!-- ============ FULL MENU ============ -->
+  <section class="drinks grid-bg" id="drinks">
+    <h2 class="display reveal">Pick Your <em>Favorite</em></h2>
+
+    <div class="drinks__cols">
+      <div class="drinks__group reveal">
+        <h3>Matcha</h3>
+        <ul>
+          <li><span>Usucha</span><b>Rp13.000</b></li>
+          <li><span>Butterscotch Matcha Latte</span><b>Rp18.000</b></li>
+          <li><span>Hazelnut Matcha Latte</span><b>Rp18.000</b></li>
+          <li><span>Pure Matcha Latte</span><b>Rp20.000</b></li>
+          <li><span>Matcha Latte Float</span><b>Rp25.000</b></li>
+          <li><span>Pistachio Creamcheese Matcha Latte</span><b>Rp25.000</b></li>
+          <li><span>Strawberry Creamcheese Matcha Latte</span><b>Rp25.000</b></li>
+        </ul>
+      </div>
+      <div class="drinks__group reveal" style="--d:.1s">
+        <h3>Kopi</h3>
+        <ul>
+          <li><span>Aren Latte</span><b>Rp15.000</b></li>
+          <li><span>Sea Salt Butterscotch Latte</span><b>Rp15.000</b></li>
+          <li><span>Americano</span><b>Rp16.000</b></li>
+          <li><span>Tiramisu Latte</span><b>Rp20.000</b></li>
+        </ul>
+      </div>
+    </div>
+    <p class="drinks__note reveal">Prices from the menu stand at the shop. Ask at the counter for today&rsquo;s specials.</p>
   </section>
 
   <!-- ============ FOOTER ============ -->
@@ -196,7 +232,7 @@
     <div class="foot__body">
       <nav class="foot__nav">
         <a href="#home">Home</a>
-        <a href="#menu" class="is-current">Our Menu</a>
+        <a href="#drinks" class="is-current">Our Menu</a>
         <a href="#signature">Signature</a>
         <a href="#locations">Our Location</a>
         <a href="#contact">Contact</a>
@@ -221,7 +257,7 @@
     </div>
 
     <div class="foot__legal">
-      <div><a href="#menu">Menu</a><a href="#locations">Location</a><a href="https://www.instagram.com/tokomatchaid/" target="_blank" rel="noreferrer">Instagram</a></div>
+      <div><a href="#drinks">Menu</a><a href="#locations">Location</a><a href="https://www.instagram.com/tokomatchaid/" target="_blank" rel="noreferrer">Instagram</a></div>
       <span>&copy;2026 Toko Matcha, All Rights Reserved</span>
     </div>
 
@@ -231,14 +267,14 @@
 </div>
 
 <!-- ============ MENU OVERLAY ============ -->
-<div class="menu grid-bg grid-bg--dark" id="menuOverlay" hidden>
+<div class="menu grid-bg grid-bg--dark" id="menuOverlay" role="dialog" aria-modal="true" aria-label="Menu" hidden>
   <div class="foot__top">
     <a class="logo" href="#home"><span>TOKO</span><span>MATCHA</span></a>
     <button class="burger burger--close" id="burgerClose" aria-label="Close menu"><i></i><i></i><i></i></button>
   </div>
   <nav class="foot__nav">
     <a href="#home" style="--i:0">Home</a>
-    <a href="#menu" style="--i:1">Our Menu</a>
+    <a href="#drinks" style="--i:1">Our Menu</a>
     <a href="#signature" style="--i:2">Signature</a>
     <a href="#locations" style="--i:3">Our Location</a>
     <a href="#contact" style="--i:4">Contact</a>
@@ -246,6 +282,6 @@
   <div class="menu__mark" aria-hidden="true">TOKOMATCHA</div>
 </div>
 
-<script src="script.js"></script>
+<script src="script.js?v=2"></script>
 </body>
 </html>

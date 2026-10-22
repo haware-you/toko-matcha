@@ -18,7 +18,7 @@ Success is a visitor who knows three things within one scroll: what the drink lo
 
 ## Brand Personality
 
-Poured, unhurried, generous. The voice of someone who takes the drink seriously and takes themselves lightly. Not a tea ceremony, not a bubble-tea chain: a small shop that makes one thing properly and charges Rp15.000 for it.
+Poured, unhurried, generous. The voice of someone who takes the drink seriously and takes themselves lightly. Not a tea ceremony, not a bubble-tea chain: a small shop that makes one thing properly and charges Rp13.000 for it.
 
 Emotionally the page should feel cold, wet, and green. Condensation on a cup. Sky. The specific relief of a cold drink in Depok humidity.
 
