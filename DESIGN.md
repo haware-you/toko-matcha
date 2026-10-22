@@ -15,10 +15,8 @@ OKLCH values are authoritative; hex is the shipped fallback.
 | Token | Hex | OKLCH | Role |
 |---|---|---|---|
 | `--cream` | `#fdf7dd` | `oklch(96.7% 0.048 100)` | Page ground, ~55% of surface |
-| `--cream-deep` | `#f6efc9` | `oklch(94.3% 0.062 102)` | Rare tonal step on cream |
 | `--green` | `#274a26` | `oklch(35.4% 0.078 145)` | Anchor blocks, footer, primary button |
 | `--green-ink` | `#16301a` | `oklch(24.8% 0.061 150)` | Body text on cream |
-| `--green-soft` | `#8fa382` | `oklch(66.1% 0.043 130)` | De-emphasised text on cream |
 | `--lime` | `#ebfc55` | `oklch(95.2% 0.201 118)` | Interrupt: ribbon, badge, CTAs on green |
 | `--page` | `#e9e9e9` | `oklch(93.2% 0.000 0)` | Desk behind the panel |
 | `--white` | `#fff` | `oklch(100% 0 0)` | Flavour cards and note cards only |
@@ -32,8 +30,8 @@ Rules:
 
 Two families, both from Google Fonts.
 
-- **Archivo** (400/500/600/700/800, plus italic 700/800): everything structural. Headlines, nav, labels, body.
-- **Playfair Display** (italic 400/500/600): the second half of every headline lockup, and small hand-annotation labels.
+- **Archivo** (400/500/600/700, plus italic 800 for the logo): everything structural. Headlines, nav, labels, body.
+- **Playfair Display** (italic 400/500): the second half of every headline lockup, and small hand-annotation labels.
 
 The signature move is a **split headline**: a tight grotesque first line and an oversize serif italic second line, overlapping vertically. `Matcha` / *`On Perfect`*, `Glow With` / *`Matcha`*, `Pure Matcha` / *`Energy`*. This lockup is the brand's identity and overrides the usual advice against display-serif italics.
 
@@ -66,7 +64,7 @@ Body copy never exceeds 65ch. Light-on-dark blocks get extra line-height.
 - **Note card** — white, radius 12px, icon tile plus two lines. Overhangs its parent on both sides.
 - **Scallop badge** — 20-lobe SVG rosette in lime, counter-rotating label.
 - **Flavour card** — white square, radius `clamp(10px, 1.5vw, 22px)`, each with its own rotation and vertical offset so the row reads as an arc. The row is wider than the panel on purpose.
-- **Ribbon** — a single SVG arc, stroked lime at 60 units, carrying a `textPath` marquee. Crosses the hero's curved bottom edge.
+- **Ribbon** — a single SVG arc, stroked lime at 60 units (thicker below 860px, so the type stays legible), carrying a `textPath` marquee. Crosses the hero's curved bottom edge.
 
 Cards are used in exactly two places, both times because the object being represented is literally a card. Nothing else is boxed.
 
