@@ -1,8 +1,11 @@
 # Toko Matcha
 
-A single-page site for **Toko Matcha**, a matcha shop in Kukusan, Beji, Depok.
-It exists to turn an Instagram or TikTok tap into a visit: what the drink looks
-like, what it costs, and where the shop is — within one scroll.
+A single-page site for Toko Matcha, a matcha shop in Kukusan, Beji, Depok.
+
+It is built for one visitor in particular: someone who taps the link in an
+Instagram or TikTok bio, on a phone, on patchy data, and wants to know three
+things before deciding whether the trip is worth it. What the drink looks
+like, what it costs, and where the shop is. All of it inside one scroll.
 
 ![Toko Matcha](assets/og-image.jpg)
 
@@ -13,9 +16,10 @@ https://example.github.io/toko-matcha/
 
 ## Running it locally
 
-Everything is static — no build step, no dependencies. But the page must be
-served over HTTP rather than opened as a `file://` URL, or the stylesheet and
-images will not resolve.
+The site is static, so there is nothing to install and nothing to build. It
+does have to be served over HTTP, though. Open `index.html` straight off disk
+as a `file://` URL and the stylesheet and images will not resolve, leaving you
+with unstyled text.
 
 ```bash
 python -m http.server 8765
@@ -25,30 +29,34 @@ Then open <http://localhost:8765>.
 
 ## Stack
 
-Hand-written HTML, CSS and vanilla JavaScript. No framework, no bundler.
-The only external request is the Google Fonts stylesheet (Archivo and
-Playfair Display).
+Hand-written HTML, CSS and vanilla JavaScript, with no framework and no
+bundler anywhere in it. The only thing the page fetches from outside is the
+Google Fonts stylesheet, which carries Archivo and Playfair Display.
 
-- `index.html` — all markup, one page
-- `styles.css` — all styling, custom properties at the top
-- `script.js` — scroll choreography, the flavour picker, and the mobile menu
-- `assets/` — photography and icons
-- `DESIGN.md` / `PRODUCT.md` — the design and product thinking behind it
+* `index.html` is the whole page, markup and all.
+* `styles.css` is the whole stylesheet, with the custom properties up top.
+* `script.js` runs the scroll choreography, the flavour picker and the mobile menu.
+* `assets/` holds the photography and icons.
+* `DESIGN.md` and `PRODUCT.md` record the thinking behind both.
 
 ## Notes
 
-- **Motion.** Entrance animations are gated behind a `.js` class on `<html>`,
-  so the page still renders fully if JavaScript fails. Everything honours
-  `prefers-reduced-motion`, including mid-session changes.
-- **Images.** The large photographs are WebP; `width`/`height` are set on every
-  `<img>` so nothing shifts as the page loads.
-- **Deploying.** Push to GitHub, then Settings → Pages → deploy from `main`.
-  Afterwards update the absolute URLs in `rel="canonical"` and the `og:image`
-  tag in `index.html`, and the live-site link above — social previews need an
-  absolute URL to work.
+Animations are gated behind a `.js` class that the page sets on `<html>`
+before anything else loads. If the script fails, nothing is left hidden
+mid-fade. Reduced-motion preferences are honoured throughout, including when
+someone changes the setting with the page already open.
+
+The large photographs are WebP. Every `<img>` carries its real `width` and
+`height`, so the layout holds its shape while the images are still arriving.
+
+To deploy: push to GitHub, then Settings, Pages, deploy from `main`. Afterwards
+go back into `index.html` and replace the placeholder domain in the
+`rel="canonical"` link and the `og:image` tag, and fix the live-site URL at the
+top of this file. Social previews need an absolute URL. A relative one silently
+produces a link with no image at all.
 
 ## License
 
-Source code is MIT (see [LICENSE](LICENSE)). The photographs in `assets/` and
-the Toko Matcha name and logo are **not** covered and remain all rights
-reserved.
+The source code is MIT, and `LICENSE` has the text. That covers `index.html`,
+`styles.css` and `script.js` only. The photographs in `assets/`, along with the
+Toko Matcha name and logo, are not covered by it and stay all rights reserved.
